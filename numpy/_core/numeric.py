@@ -52,7 +52,7 @@ __all__ = [
     'identity', 'allclose', 'putmask',
     'flatnonzero', 'inf', 'nan', 'False_', 'True_', 'bitwise_not',
     'full', 'full_like', 'matmul', 'vecdot', 'shares_memory',
-    'may_share_memory']
+    'may_share_memory', 'std_basis']
 
 
 def _zeros_like_dispatcher(
@@ -279,6 +279,42 @@ def ones_like(
     )
     multiarray.copyto(res, 1, casting='unsafe')
     return res
+
+
+def std_basis(size, index, dtype=None):
+    """
+    Return an element from the standard Euclidean basis.
+
+    Parameters
+    ----------
+    size : int
+        The length of the basis vector.
+    index : int
+        The index of the basis vector to return.
+
+    Returns
+    -------
+    out : ndarray
+        The requested basis vector.
+
+    Examples
+    --------
+
+    >>> import numpy as np
+    >>> np.std_basis(4, 2)
+    array([0, 0, 1, 0])
+
+    >>> np.std_basis(3, 0)
+    array([1, 0, 0])
+
+    >>> np.std_basis(5, 4)
+    array([0, 0, 0, 0, 1])
+
+    """
+
+    vec = np.zeros(size, dtype=dtype)
+    vec[index] = 1
+    return vec
 
 
 def _full_dispatcher(
